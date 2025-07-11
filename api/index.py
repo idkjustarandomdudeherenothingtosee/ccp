@@ -8,6 +8,13 @@ def handler(event, context):
     try:
         current_dir = os.path.dirname(__file__)
         facts_path = os.path.join(current_dir, "facts.json")
+
+        if not os.path.exists(facts_path):
+            return {
+                "statusCode": 500,
+                "headers": {"Content-Type": "application/json"},
+                "body": json.dumps({"error": "facts.json file not found"})
+            }
         
         with open(facts_path, "r") as f:
             facts = json.load(f)
@@ -20,9 +27,7 @@ def handler(event, context):
             "body": json.dumps({"fact": fact})
         }
     except Exception as e:
-        # Log the full traceback for debugging in Vercel logs
         traceback.print_exc(file=sys.stderr)
-        
         return {
             "statusCode": 500,
             "headers": {"Content-Type": "application/json"},
