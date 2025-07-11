@@ -1,18 +1,20 @@
 import json
 import random
-from flask import Flask, jsonify
+import os
 
-app = Flask(__name__)
+def handler(event, context):
+    # Load facts.json (assumes file is next to this script)
+    current_dir = os.path.dirname(__file__)
+    facts_path = os.path.join(current_dir, "facts.json")
+    with open(facts_path, "r") as f:
+        facts = json.load(f)
 
-# Load facts once at startup
-with open("facts.json", "r") as f:
-    facts = json.load(f)
-
-@app.route("/api/random-fact")
-def random_fact():
     fact = random.choice(facts)
-    return jsonify({"fact": fact})
 
-# This line is needed if you want to test locally
-if __name__ == "__main__":
-    app.run()
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": json.dumps({"fact": fact})
+    }
