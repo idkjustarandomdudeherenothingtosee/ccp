@@ -1,11 +1,7 @@
 {
-  "name": "random-fact-vercel",
-  "type": "module"
+  "name": "keyauth-backend",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "@vercel/node": "^2.8.0",
-    "typescript": "^5.1.6"
+  "dependencies": {
+    "crypto": "^1.0.1"
   }
 }
